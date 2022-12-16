@@ -12,27 +12,18 @@ class LengthConveterController extends Controller
     public function lengthCalculate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            // 'dob' => 'required|date',
-            // 'date' => 'required|date|after:dob',
+            //  'inch' => 'required|date',
+            
+
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
 
         $formulas = [
-            'cm' => [
-                'inches' => '/2.54',
-                'feet' => '/12',
-                'km' => '/100000',
-                'm' => '/100',
-                'millimeter' => '/12',
-                'yards' => '/12',
-                'decimeters' => '/12',
-                'miles' => '/12',
-                'nauticalMiles' => '/12',
-            ],
+           
 
-            'inches' => [
+            'inch' => [
                 'cm' => '*2.54',
                 'feet' => '/12',
                 'km' => '/39370.1',
@@ -136,13 +127,32 @@ class LengthConveterController extends Controller
                 'miles' => '* 1852 / 1609.344',
                 
             ],
+            'cm' => [
+                'inches' => '/2.54',
+                'feet' => '/12',
+                'km' => '/100000',
+                'm' => '/100',
+                'millimeter' => '*12',
+                'yards' => '/91.44',
+                'decimeters' => '/10',
+                'miles' => '/160934.4',
+                'nauticalMiles' => '/185185.185',
+            ],
             
         ];
-
+  
+      
 
   //CALULATION ON VALUE BASE ON FORMULA
 
         $removedNUllKeyAr = array_filter($request->all()); //remove null
+
+
+        if(empty($removedNUllKeyAr))
+        {
+          
+            return $this->sendResponse('success', 'Enter Any One Value'); 
+        }
 
         $remainApplyFormulaAmount = array_values($removedNUllKeyAr)[0];  // array value je null nay hoy, [0]= je first hase te
         // dd($remainApplyFormulaAmount);
@@ -158,19 +168,23 @@ class LengthConveterController extends Controller
         {
             foreach($foundFormula as $formulaName => $formulaValue)
             {
-                $output[$formulaName] = ($remainApplyFormulaAmount.$formulaValue);//input ni value =remainApplyFormulaAmount
+                
+                //$output[$formulaName] = ($remainApplyFormulaAmount.$formulaValue);//input ni value =remainApplyFormulaAmount
+
+                $output[$formulaName] = eval('return '.$remainApplyFormulaAmount.$formulaValue.';');
+               
             }   
-            // dd($foundFormula,$findKeyAr,$remainApplyFormulaAmount,$output);
-            // dd($output);
+            return $this->sendResponse('success',$output); 
+           
+              
+           
+
         }
         
-        dd($output);
-
-
-        
        
+      
 
-    
+
 
 
         // $nauticalMiles = $request->nauticalMiles;
