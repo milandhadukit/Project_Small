@@ -30,61 +30,114 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'auth'
-], function ($router) {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/user-profile', [AuthController::class, 'userProfile']); 
-    
-    // age calculator
-    Route::post('/age', [AgeCalculatorController::class, 'AgeCalculate']);
-    
-    // WorkTimeCalculator 
-    Route::post('/time', [WorkTimeCalculatorController::class, 'timeCalculate']);
-    //bmi calculate
-    Route::post('/bmi', [BMICalculatorcontroller::class, 'bmiCalculate']);
+Route::group(
+    [
+        'middleware' => 'api',
+        'prefix' => 'auth',
+    ],
+    function ($router) {
+        Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/refresh', [AuthController::class, 'refresh']);
+        Route::get('/user-profile', [AuthController::class, 'userProfile']);
 
-    //percentage calculate
-    Route::post('/percentage', [PercentageCalculatorController::class, 'percentageCalculate']);
+        // age calculator
+        Route::post('/age', [AgeCalculatorController::class, 'AgeCalculate']);
 
-    //simple Calculator
-    Route::post('/simple', [SimpleCalculatorController::class, 'simpleCalculator']);
+        // WorkTimeCalculator
+        Route::post('/time', [
+            WorkTimeCalculatorController::class,
+            'timeCalculate',
+        ]);
+        //bmi calculate
+        Route::post('/bmi', [BMICalculatorcontroller::class, 'bmiCalculate']);
 
-    //average calculator
-    Route::post('/average', [AverageCalculatorController::class, 'averageCalculator']);
+        //percentage calculate
+        Route::post('/percentage', [
+            PercentageCalculatorController::class,
+            'percentageCalculate',
+        ]);
 
-    //date calculator
-    Route::post('/date', [DateCalculatorController::class, 'dateCalculator']);
+        //simple Calculator
+        Route::post('/simple', [
+            SimpleCalculatorController::class,
+            'simpleCalculator',
+        ]);
 
-    //power Calculator
-    Route::post('/length', [LengthConveterController::class, 'lengthCalculate']);
+        //average calculator
+        Route::post('/average', [
+            AverageCalculatorController::class,
+            'averageCalculator',
+        ]);
 
-    // random genrator
-    Route::post('/random', [RandomGenratorController::class, 'randomGenrate']);
-    // car insurance Generator
-    Route::post('/car', [CarInsuranceGeneratorController::class, 'carGenerate']);
+        //date calculator
+        Route::post('/date', [
+            DateCalculatorController::class,
+            'dateCalculator',
+        ]);
 
-    // bar graph 
-    Route::post('/bar', [CarInsuranceGeneratorController::class, 'barGraph']);
+        //power Calculator
+        Route::post('/length', [
+            LengthConveterController::class,
+            'lengthCalculate',
+        ]);
 
-    // parking management 
-    Route::post('/parking', [ParkingLotManagementController::class, 'parkingRegister']);
-    Route::post('/parking-list', [ParkingLotManagementController::class, 'parkingList']);
-    Route::post('/search-list', [ParkingLotManagementController::class, 'serchList']);
+        // random genrator
+        Route::post('/random', [
+            RandomGenratorController::class,
+            'randomGenrate',
+        ]);
+        // car insurance Generator
+        Route::post('/car', [
+            CarInsuranceGeneratorController::class,
+            'carGenerate',
+        ]);
 
-    //counter
-    Route::get('/count', [ParkingLotManagementController::class,'countNumber']);
+        // bar graph
+        Route::post('/bar', [
+            CarInsuranceGeneratorController::class,
+            'barGraph',
+        ]);
 
-    // time watch
-    Route::post('/time', [generalController::class,'timeWatch']);
+        // parking management
+        Route::post('/parking', [
+            ParkingLotManagementController::class,
+            'parkingRegister',
+        ]);
+        Route::post('/parking-list', [
+            ParkingLotManagementController::class,
+            'parkingList',
+        ]);
+        Route::post('/search-list', [
+            ParkingLotManagementController::class,
+            'serchList',
+        ]);
 
-    //Pythagorean Theorem Calculator
-    Route::post('/pythagorean', [generalController::class,'pythagoreanTheorem']);
+        //counter
+        Route::get('/count', [
+            ParkingLotManagementController::class,
+            'countNumber',
+        ]);
 
+        // time watch
+        Route::post('/time', [generalController::class, 'timeWatch']);
 
+        //Pythagorean Theorem Calculator
+        Route::post('/pythagorean', [
+            generalController::class,
+            'pythagoreanTheorem',
+        ]);
 
-});
+        // address book
+        Route::post('/book', [generalController::class, 'addressBook']);
+        Route::post('/list', [generalController::class, 'contactList']);
+        Route::delete('/book-delete/{id}', [
+            generalController::class,
+            'contactDelete',
+        ]);
+
+        // ENERGY CONVERTER
+        Route::post('/energy', [generalController::class, 'energyCalculator']);
+    }
+);
